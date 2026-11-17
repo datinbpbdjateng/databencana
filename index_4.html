@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Data Bencana Jawa Tengah</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: portal — bilah navigasi kiri (atas di ponsel), konten per menu: Overview, Data Bencana, Data History. */
+:root{
+  --bg:#eef2f5; --surface:#ffffff; --surface-2:#f6f8fa; --ink:#13202c; --muted:#5a6877; --line:#d9e0e7;
+  --accent:#c2410c; --accent-soft:#fbe7dc; --danger:#b4232f; --ok:#16794a; --bar:#3d566e;
+  --nav:#13283a; --nav-ink:#e6edf3; --nav-muted:#93a6b8; --nav-active:#1f3d55;
+  --hz-cuaca:#7c5cc4; --hz-banjir:#2f6fdd; --hz-gempa:#56697c; --hz-gas:#6b7d1f; --hz-erupsi:#b0306a; --hz-kebakaran:#d9661f;
+  --hz-kekeringan:#d39a12; --hz-longsor:#8a5328; --hz-karhutla:#c8283c; --hz-gelombang:#14929a; --hz-teknologi:#5d6b9c; --hz-lain:#8a96a3;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d141b; --surface:#151f29; --surface-2:#1a2632; --ink:#e4ebf1; --muted:#93a2b1; --line:#263442;
+  --accent:#f0743a; --accent-soft:#3a2216; --danger:#f06a72; --ok:#4cc38a; --bar:#7d9ab5;
+  --nav:#0a1118; --nav-ink:#e4ebf1; --nav-muted:#8394a5; --nav-active:#1a2a39;
+  --hz-cuaca:#a08ae0; --hz-banjir:#5b93f0; --hz-gempa:#8fa2b5; --hz-gas:#a6b84a; --hz-erupsi:#e061a0; --hz-kebakaran:#f08a45;
+  --hz-kekeringan:#e8b63a; --hz-longsor:#c48553; --hz-karhutla:#ec5a68; --hz-gelombang:#3fbcc3; --hz-teknologi:#8f9dd0; --hz-lain:#7d8a97;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d141b; --surface:#151f29; --surface-2:#1a2632; --ink:#e4ebf1; --muted:#93a2b1; --line:#263442;
+  --accent:#f0743a; --accent-soft:#3a2216; --danger:#f06a72; --ok:#4cc38a; --bar:#7d9ab5;
+  --nav:#0a1118; --nav-ink:#e4ebf1; --nav-muted:#8394a5; --nav-active:#1a2a39;
+  --hz-cuaca:#a08ae0; --hz-banjir:#5b93f0; --hz-gempa:#8fa2b5; --hz-gas:#a6b84a; --hz-erupsi:#e061a0; --hz-kebakaran:#f08a45;
+  --hz-kekeringan:#e8b63a; --hz-longsor:#c48553; --hz-karhutla:#ec5a68; --hz-gelombang:#3fbcc3; --hz-teknologi:#8f9dd0; --hz-lain:#7d8a97;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:1001;background:var(--nav)}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- kerangka ---------- */
+.shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100%}
+.side{background:var(--nav);color:var(--nav-ink);position:sticky;top:env(safe-area-inset-top,0px);height:100vh;display:flex;flex-direction:column;gap:22px;
+  padding-block:22px;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:18px}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:40px;height:40px;flex:none;border-radius:8px;background:var(--accent);display:grid;place-items:center}
+.mark svg{width:22px;height:22px}
+.brand .org{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--nav-muted)}
+.brand .name{font-family:var(--f-display);font-size:22px;font-weight:600;line-height:1.05}
+.nav{display:grid;gap:4px}
+.nav a{display:grid;grid-template-columns:22px 1fr;gap:2px 10px;align-items:center;padding:10px 12px;border-radius:8px;color:var(--nav-ink);text-decoration:none}
+.nav a svg{width:18px;height:18px;grid-row:span 2;align-self:center;opacity:.85}
+.nav a b{font-weight:600;font-size:15px}
+.nav a small{grid-column:2;font-size:12.5px;color:var(--nav-muted);font-variant-numeric:tabular-nums}
+.nav a:hover{background:var(--nav-active)}
+.nav a[aria-current="page"]{background:var(--nav-active);box-shadow:inset 3px 0 0 var(--accent)}
+.nav a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.side .foot{margin-top:auto;font-size:12px;color:var(--nav-muted)}
+.content{min-width:0;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));padding-block:22px 40px}
+.page{max-width:1240px;margin:0 auto;display:grid;gap:16px}
+
+@media (max-width:960px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{height:auto;z-index:1000;flex-direction:column;gap:10px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .brand .name{font-size:20px}.mark{width:34px;height:34px}
+  .nav{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;gap:6px;scrollbar-width:none}
+  .nav a{grid-template-columns:auto;padding:7px 12px}
+  .nav a svg{display:none}.nav a small{grid-column:1;font-size:11.5px}
+  .nav a[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--accent)}
+  .side .foot{display:none}
+  .content{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 32px}
+}
+
+/* ---------- umum ---------- */
+.pagehead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 20px}
+.pagehead h1{font-size:34px;line-height:1.05}
+.pagehead .lede{color:var(--muted);max-width:68ch;margin-top:6px}
+select,input[type=search]{font:inherit;font-size:14px;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-height:36px;max-width:100%}
+select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:inherit;cursor:pointer}
+.btn{font-size:14px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 12px;min-height:36px;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default;border-color:var(--line);color:var(--muted)}
+.status{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;color:var(--muted);font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);white-space:nowrap}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.pill.sample{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}.pill.sample i{background:var(--accent)}
+.pill.live i{background:var(--ok)}
+.pill.err{color:var(--danger);border-color:var(--danger)}.pill.err i{background:var(--danger)}
+.notice{border:1px solid var(--danger);background:var(--surface);border-radius:var(--r);padding:12px 16px;font-size:14px}
+.notice b{color:var(--danger)}
+.skip summary{cursor:pointer;font-weight:600;color:var(--danger)}
+.skip summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.notice ol{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.panel-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px;margin-bottom:12px}
+.panel-head h2{font-size:21px}
+.panel-head p{color:var(--muted);font-size:13px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:16px}
+.grid2b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:900px){.grid2,.grid2b{grid-template-columns:minmax(0,1fr)}}
+.chart-box{position:relative;height:300px}
+.chart-box.tall{height:380px}
+.dim{color:var(--muted)}
+.mono{font-family:var(--f-mono);font-size:12.5px}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.kpis.k4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpi{background:var(--surface);padding:14px 16px;display:grid;gap:2px;align-content:start;min-width:0}
+.kpi .v{font-family:var(--f-display);font-weight:700;font-size:38px;line-height:1;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kpi .v.t{font-size:28px;line-height:1.05}
+.kpi .s{font-size:12.5px;color:var(--muted)}
+.kpi.lead .v{color:var(--accent)}
+.kpi.human .v{color:var(--danger)}
+.delta{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.delta.up{color:var(--danger)}.delta.down{color:var(--ok)}
+@media (max-width:980px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.kpis.k4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi .v{font-size:32px}}
+
+.losses{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px 20px;padding:14px 16px}
+.losses .h{display:grid;gap:0;min-width:0}
+.losses .h b{font-family:var(--f-display);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.losses .h span{font-size:12.5px;color:var(--muted)}
+@media (max-width:980px){.losses{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.losses{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.filterbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 16px}
+.filterbar .t{font-weight:600;margin-right:auto}
+
+/* ---------- overview ---------- */
+.intro{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px}
+@media (max-width:900px){.intro{grid-template-columns:minmax(0,1fr)}}
+.about .lede{font-size:16.5px;max-width:65ch}
+.about ul{margin:12px 0 0;padding-left:18px;color:var(--muted)}
+.about li+li{margin-top:4px}
+.go{display:grid;gap:10px}
+.go a{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);text-decoration:none;color:var(--ink)}
+.go a:hover{border-color:var(--accent)}
+.go a b{font-family:var(--f-display);font-size:22px;font-weight:600}
+.go a small{grid-column:1;color:var(--muted);font-size:13px}
+.go a .arr{grid-row:span 2;grid-column:2;font-size:20px;color:var(--accent)}
+
+.quake{display:grid;gap:10px}
+.quake .mag{display:flex;align-items:baseline;gap:10px}
+.quake .mag b{font-family:var(--f-display);font-size:48px;line-height:1;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.quake dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;font-size:14px}
+.quake dt{color:var(--muted)}
+.quake dd{margin:0;min-width:0}
+.quake .warn{font-weight:600}
+.quake .empty{color:var(--muted);font-size:14px;padding:6px 0}
+.ews{display:grid;gap:8px}
+.ews a{display:grid;grid-template-columns:1fr auto;gap:0 10px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--ink);background:var(--surface-2)}
+.ews a:hover{border-color:var(--accent)}
+.ews a b{font-weight:600}
+.ews a small{grid-column:1;color:var(--muted);font-size:12.5px}
+.ews a span{grid-row:span 2;grid-column:2;align-self:center;color:var(--accent)}
+.src{font-size:12px;color:var(--muted)}
+
+.latest{list-style:none;margin:0;padding:0;display:grid}
+.latest li{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.latest li:last-child{border-bottom:0}
+.latest .w{min-width:0}
+.latest .w small{display:block;color:var(--muted);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:520px){.latest li{grid-template-columns:minmax(0,1fr) auto}.latest li .mono{grid-column:1/-1}}
+
+/* ---------- peta & tabel ---------- */
+#map{height:440px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line)}
+@media (max-width:520px){#map{height:340px}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i,.chip i{width:10px;height:10px;border-radius:50%;flex:none}
+.mapnote{margin-top:8px;font-size:12.5px;color:var(--muted)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tools input{width:min(260px,100%)}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+table.wide{min-width:1000px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface-2);font-weight:600;white-space:nowrap}
+th.hz{white-space:normal;min-width:72px;line-height:1.25;vertical-align:bottom}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--surface-2)}
+tfoot td{font-weight:700;border-top:2px solid var(--line);border-bottom:0;background:var(--surface-2)}
+td.z{color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-weight:600;font-size:13px}
+.sub{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
+.tag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+.pager{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--muted)}
+.foot-note{color:var(--muted);font-size:13px}
+
+/* Leaflet (gaya inti) */
+.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane>svg,.leaflet-pane>canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}
+.leaflet-container{overflow:hidden;font-family:var(--f-body);-webkit-tap-highlight-color:transparent;outline-offset:1px}
+.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow{user-select:none}
+.leaflet-tile{filter:inherit;visibility:hidden}.leaflet-tile-loaded{visibility:inherit}
+.leaflet-container img.leaflet-tile{max-width:none!important;max-height:none!important;width:auto;padding:0}
+.leaflet-container .leaflet-overlay-pane svg{max-width:none!important;max-height:none!important}
+.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}
+.leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}
+.leaflet-control{position:relative;z-index:800;pointer-events:visiblePainted;pointer-events:auto;float:left;clear:both}
+.leaflet-top,.leaflet-bottom{position:absolute;z-index:900;pointer-events:none}
+.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}
+.leaflet-right .leaflet-control{float:right}.leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:0}.leaflet-left .leaflet-control{margin-left:10px}
+.leaflet-fade-anim .leaflet-popup{opacity:0;transition:opacity .2s linear}.leaflet-fade-anim .leaflet-map-pane .leaflet-popup{opacity:1}
+.leaflet-zoom-animated{transform-origin:0 0}
+.leaflet-zoom-anim .leaflet-zoom-animated{transition:transform .25s cubic-bezier(0,0,.25,1)}
+.leaflet-zoom-anim .leaflet-zoom-hide{visibility:hidden}
+.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:grab}.leaflet-dragging .leaflet-grab{cursor:move}
+.leaflet-bar{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.leaflet-bar a{display:block;width:30px;height:30px;line-height:30px;text-align:center;text-decoration:none;color:var(--ink);background:var(--surface);font:600 18px/30px var(--f-body)}
+.leaflet-bar a+a{border-top:1px solid var(--line)}
+.leaflet-bar a.leaflet-disabled{color:var(--muted);cursor:default}
+.leaflet-control-attribution{background:var(--surface);opacity:.85;color:var(--muted);font-size:10.5px;padding:0 5px;margin:0}
+.leaflet-control-attribution a{color:inherit}
+.leaflet-attribution-flag{display:none!important}
+.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}
+.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:8px;background:var(--surface);color:var(--ink);box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.leaflet-popup-content{margin:12px 16px 12px 14px;font-size:13.5px;line-height:1.45;min-height:1px;max-width:280px}
+.leaflet-popup-content p{margin:4px 0}
+.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-top:-1px;margin-left:-20px;overflow:hidden;pointer-events:none}
+.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;transform:rotate(45deg);background:var(--surface)}
+.leaflet-container a.leaflet-popup-close-button{position:absolute;top:0;right:0;width:24px;height:24px;font:16px/24px Tahoma,Verdana,sans-serif;color:var(--muted);text-decoration:none;text-align:center}
+@media (prefers-reduced-motion:reduce){.leaflet-zoom-anim .leaflet-zoom-animated,.leaflet-fade-anim .leaflet-popup{transition:none}}
+</style>
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+
+
+<div class="shell">
+  <aside class="side">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 10v4.5" stroke-linecap="round"/><circle cx="12" cy="17" r=".6" fill="#fff"/></svg></div>
+      <div><div class="org" id="instansi">Provinsi Jawa Tengah</div><div class="name">Portal Data Bencana</div></div>
+    </div>
+    <nav class="nav" aria-label="Menu utama">
+      <a href="#overview" data-route="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        <b>Overview</b><small>Rekap &amp; peringatan dini</small></a>
+      <a href="#data-bencana" data-route="data-bencana">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+        <b>Data Bencana</b><small id="nav-range-bencana"></small></a>
+      <a href="#data-history" data-route="data-history">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <b>Data History</b><small id="nav-range-history"></small></a>
+    </nav>
+    <div class="foot">Sumber data: Google Sheets<br>Info peringatan dini: BMKG</div>
+  </aside>
+
+  <div class="content">
+    <!-- ===================== OVERVIEW ===================== -->
+    <section class="page" id="view-overview">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow" id="ov-eyebrow">Overview</div>
+          <h1>Kejadian bencana di Jawa Tengah</h1>
+        </div>
+        <div class="status"><span class="pill" id="ov-pill"><i></i><span>Memuat data…</span></span></div>
+      </div>
+      <p class="status" id="ov-status" style="margin-top:-8px"></p>
+
+      <div class="intro">
+        <div class="panel about">
+          <h2 style="font-size:21px;margin-bottom:8px">Tentang portal ini</h2>
+          <p class="lede" id="ov-desc"></p>
+          <ul>
+            <li><b>Overview</b> merekap jumlah kejadian per jenis bencana tiap tahun, <span id="ov-r0"></span>.</li>
+            <li><b>Data Bencana</b> memuat rincian kejadian <span id="ov-r1"></span>: lokasi, korban, kerusakan, dan kerugian.</li>
+            <li><b>Data History</b> memuat arsip kejadian <span id="ov-r2"></span> untuk melihat pola jangka panjang.</li>
+          </ul>
+        </div>
+        <div class="go">
+          <a href="#data-bencana"><b>Data Bencana</b><small id="go-1"></small><span class="arr" aria-hidden="true">→</span></a>
+          <a href="#data-history"><b>Data History</b><small id="go-2"></small><span class="arr" aria-hidden="true">→</span></a>
+          <div class="panel" style="padding:12px 16px">
+            <div class="eyebrow">Tahun berjalan</div>
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-top:4px">
+              <span style="font-family:var(--f-display);font-size:40px;font-weight:700;line-height:1;color:var(--accent)" class="num" id="ov-ytd">—</span>
+              <span class="dim" id="ov-ytd-s">kejadian</span>
+            </div>
+            <div class="delta" id="ov-ytd-d" style="margin-top:6px"></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="kpis k4" aria-label="Rekap seluruh periode">
+        <div class="kpi lead"><span class="eyebrow">Total kejadian</span><span class="v" id="ov-k1">—</span><span class="s" id="ov-k1s"></span></div>
+        <div class="kpi"><span class="eyebrow">Rata-rata per tahun</span><span class="v" id="ov-k2">—</span><span class="s">kejadian</span></div>
+        <div class="kpi"><span class="eyebrow">Tahun tertinggi</span><span class="v" id="ov-k3">—</span><span class="s" id="ov-k3s"></span></div>
+        <div class="kpi"><span class="eyebrow">Jenis terbanyak</span><span class="v t" id="ov-k4">—</span><span class="s" id="ov-k4s"></span></div>
+      </section>
+
+      <div class="grid2">
+        <section class="panel">
+          <div class="panel-head"><h2>Kejadian per tahun</h2><p>Ditumpuk menurut jenis bencana</p></div>
+          <div class="chart-box tall"><canvas id="c-ov-tahun" aria-label="Grafik jumlah kejadian bencana per tahun"></canvas></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Peringatan dini BMKG</h2><p>Informasi resmi BMKG</p></div>
+          <div class="quake" id="quake">
+            <div class="eyebrow">Gempabumi terkini</div>
+            <div class="empty" id="quake-body">Memuat info gempabumi terkini…</div>
+          </div>
+          <div class="ews" id="ews-links" style="margin-top:14px"></div>
+          <p class="src" style="margin-top:10px">Sumber: BMKG (Badan Meteorologi, Klimatologi, dan Geofisika).</p>
+        </section>
+      </div>
+
+      <div class="grid2">
+        <section class="panel">
+          <div class="panel-head"><h2>Komposisi jenis bencana</h2><p id="ov-komp-sub"></p></div>
+          <div class="chart-box tall"><canvas id="c-ov-jenis" aria-label="Grafik jumlah kejadian per jenis bencana seluruh periode"></canvas></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Kejadian terbaru</h2><a class="btn" href="#data-bencana">Lihat semua →</a></div>
+          <ul class="latest" id="ov-latest"></ul>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="panel-head"><h2>Rekap kejadian per tahun</h2><p>Pilih tahun untuk membuka rinciannya</p></div>
+        <div class="scroll">
+          <table id="ov-table"><thead></thead><tbody></tbody><tfoot></tfoot></table>
+        </div>
+      </section>
+    </section>
+
+    <!-- ===================== DATA BENCANA / HISTORY ===================== -->
+    <section class="page" id="view-data" hidden>
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow" id="d-eyebrow">Data Bencana</div>
+          <h1 id="d-title">Kejadian bencana</h1>
+          <p class="lede" id="d-lede"></p>
+        </div>
+        <div class="status"><span class="pill" id="d-pill"><i></i><span>Memuat data…</span></span></div>
+      </div>
+      <p class="status" id="d-status" style="margin-top:-8px"></p>
+      <div class="notice" id="d-notice" hidden></div>
+      <details class="panel skip" id="d-skip" hidden>
+        <summary id="d-skip-sum"></summary>
+        <p class="dim" style="margin:8px 0 10px;font-size:13px">Nomor baris mengikuti urutan di tab (baris 1 = judul kolom). Jika banyak tanggal terbaca kosong padahal di sheet terisi, pasang proxy Apps Script (Code.gs) agar tanggal terbaca persis seperti di sheet.</p>
+        <div class="scroll"><table style="min-width:640px"><thead><tr><th>Tab</th><th class="n">Baris</th><th>Isi kolom tanggal</th><th>Keterangan</th></tr></thead><tbody id="d-skip-body"></tbody></table></div>
+      </details>
+
+      <section class="panel filterbar" aria-label="Filter">
+        <span class="t">Filter</span>
+        <label class="sr" for="f-tahun">Tahun</label><select id="f-tahun"></select>
+        <label class="sr" for="f-kab">Kabupaten/Kota</label><select id="f-kab"></select>
+        <label class="sr" for="f-jenis">Jenis bencana</label><select id="f-jenis"></select>
+        <button class="btn" id="btn-reset" type="button">Reset</button>
+        <button class="btn" id="btn-reload" type="button">↻ Muat ulang</button>
+      </section>
+
+      <section class="kpis" aria-label="Ringkasan dampak">
+        <div class="kpi lead"><span class="eyebrow">Kejadian</span><span class="v" id="k-kejadian">—</span><span class="s" id="k-kejadian-s">kejadian tercatat</span></div>
+        <div class="kpi human"><span class="eyebrow">Meninggal</span><span class="v" id="k-meninggal">—</span><span class="s">jiwa</span></div>
+        <div class="kpi human"><span class="eyebrow">Hilang</span><span class="v" id="k-hilang">—</span><span class="s">jiwa</span></div>
+        <div class="kpi"><span class="eyebrow">Luka-luka</span><span class="v" id="k-luka">—</span><span class="s">jiwa</span></div>
+        <div class="kpi"><span class="eyebrow">Mengungsi</span><span class="v" id="k-mengungsi">—</span><span class="s">jiwa</span></div>
+        <div class="kpi"><span class="eyebrow">Terdampak</span><span class="v" id="k-terdampak">—</span><span class="s">jiwa</span></div>
+      </section>
+
+      <section class="panel losses" aria-label="Kerusakan dan kerugian">
+        <div class="h"><b id="k-rusak">—</b><span>rumah rusak</span></div>
+        <div class="h"><b id="k-terendam">—</b><span>rumah terendam</span></div>
+        <div class="h"><b id="k-sekolah">—</b><span>sekolah terdampak</span></div>
+        <div class="h"><b id="k-sawah">—</b><span>sawah terdampak (ha)</span></div>
+        <div class="h"><b id="k-lahan">—</b><span>lahan &amp; hutan (ha)</span></div>
+        <div class="h"><b id="k-kerugian">—</b><span>perkiraan kerugian</span></div>
+      </section>
+
+      <div class="grid2">
+        <section class="panel">
+          <div class="panel-head"><h2>Peta kejadian</h2><p>Ukuran titik mengikuti jumlah jiwa terdampak</p></div>
+          <div id="map" role="region" aria-label="Peta sebaran kejadian bencana"></div>
+          <div class="legend" id="legend"></div>
+          <div class="mapnote" id="mapnote-approx" hidden></div>
+          <div class="mapnote" id="mapnote" hidden>Peta dasar tidak dapat dimuat di tampilan ini. Titik kejadian tetap ditampilkan; peta dasar akan muncul saat halaman dibuka dari GitHub Pages.</div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Jenis bencana</h2><p>Jumlah kejadian</p></div>
+          <div class="chart-box tall"><canvas id="c-jenis" aria-label="Grafik jumlah kejadian per jenis bencana"></canvas></div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="panel-head"><h2 id="trend-title">Tren kejadian per bulan</h2><p id="trend-sub">Ditumpuk menurut jenis bencana</p></div>
+        <div class="chart-box"><canvas id="c-tren" aria-label="Grafik tren kejadian bencana"></canvas></div>
+      </section>
+
+      <div class="grid2b">
+        <section class="panel">
+          <div class="panel-head"><h2>Kabupaten/kota terbanyak</h2><p>10 wilayah dengan kejadian terbanyak</p></div>
+          <div class="chart-box tall"><canvas id="c-kab" aria-label="Grafik kabupaten/kota dengan kejadian terbanyak"></canvas></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Jiwa terdampak per jenis</h2><p>Total jiwa terdampak</p></div>
+          <div class="chart-box tall"><canvas id="c-dampak" aria-label="Grafik jiwa terdampak per jenis bencana"></canvas></div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Daftar kejadian</h2>
+          <div class="tools">
+            <label class="sr" for="f-q">Cari</label>
+            <input type="search" id="f-q" placeholder="Cari wilayah, kecamatan, desa, keterangan…">
+            <label class="sr" for="f-rows">Baris per halaman</label>
+            <select id="f-rows"><option value="10">10 baris</option><option value="25">25 baris</option><option value="50">50 baris</option></select>
+          </div>
+        </div>
+        <div class="scroll">
+          <table class="wide">
+            <thead><tr>
+              <th>Tanggal</th><th>Kabupaten/Kota</th><th>Jenis</th><th>Kecamatan / Desa</th>
+              <th class="n">MD</th><th class="n">Hilang</th><th class="n">Luka</th><th class="n">Mengungsi</th><th class="n">Terdampak</th>
+              <th class="n">Rumah rusak</th><th class="n">Terendam</th><th class="n">Kerugian</th><th>Keterangan</th>
+            </tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <span id="pg-info"></span>
+          <div class="tools">
+            <button class="btn" id="pg-prev" type="button">← Sebelumnya</button>
+            <button class="btn" id="pg-next" type="button">Berikutnya →</button>
+          </div>
+        </div>
+      </section>
+      <p class="foot-note">MD = meninggal dunia. Kerugian ditulis ringkas: jt = juta, M = miliar, T = triliun rupiah.</p>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+/* =========================================================
+   PENGATURAN — ubah bagian ini saja
+   ========================================================= */
+const CONFIG = {
+  INSTANSI: 'Provinsi Jawa Tengah',
+  DESKRIPSI: 'Portal ini merangkum data kejadian bencana di 35 kabupaten/kota di Jawa Tengah: jenis bencana, lokasi, korban jiwa, pengungsi, kerusakan, dan kerugian. Data dibaca langsung dari Google Sheets, sehingga tampilan ikut berubah setiap kali data diperbarui.',
+
+  // Opsional, disarankan: URL Web App Google Apps Script (lihat Code.gs).
+  // Jika diisi, data dibaca persis seperti yang tampil di sheet.
+  // Jika kosong, data dibaca lewat Google Visualization API.
+  PROXY_URL: '',
+
+  // Rekap jumlah kejadian per jenis per tahun (menu Overview).
+  // SHEET_ID = bagian URL di antara /d/ dan /edit. File harus berformat Google Sheets (bukan .xlsx).
+  OVERVIEW: { SHEET_ID: '1MX-dwMERmOYgcKVTgpQMg0px9OLQN21z', SHEET_NAME: 'Sheet1' },
+
+  DATA: {
+    // Rincian kejadian. Satu tab per tahun.
+    bencana: { SHEET_ID: '1oijTR2T9ywQi8AT6E-sSnb54KTaSs-_akXLpxiXtbNc', SHEET_NAMES: ['2024', '2025', '2026'], TAHUN_AWAL: 2024, TAHUN_AKHIR: 2026 },
+    // Arsip. Kosongkan SHEET_ID untuk memakai data dummy.
+    history: { SHEET_ID: '', SHEET_NAMES: ['DATA HISTORY'], TAHUN_AWAL: 2014, TAHUN_AKHIR: 2023 }
+  },
+
+  // Tautan peringatan dini (menu Overview).
+  EWS_LINKS: [
+    { judul: 'Peringatan Dini Cuaca BMKG', ket: 'Prakiraan dan peringatan dini cuaca ekstrem', url: 'https://www.bmkg.go.id/' },
+    { judul: 'Stasiun Meteorologi Ahmad Yani Semarang', ket: 'Informasi cuaca wilayah Jawa Tengah', url: 'https://stamet-ahmadyani.bmkg.go.id/' },
+    { judul: 'InaTEWS — Gempabumi & Tsunami', ket: 'Peringatan dini tsunami dan gempabumi real-time', url: 'https://inatews.bmkg.go.id/' },
+    { judul: 'Data Terbuka Gempabumi BMKG', ket: 'Gempa terkini, gempa dirasakan, dan arsipnya', url: 'https://data.bmkg.go.id/gempabumi' }
+  ],
+  GEMPA_JSON: 'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json',
+
+  MAP_CENTER: [-7.25, 110.1],
+  MAP_ZOOM: 8
+};
+
+/* Cuplikan sheet Overview (dibaca 3 Nov 2026). Dipakai hanya jika sheet tidak dapat dimuat. */
+const OVERVIEW_SNAPSHOT = {
+  tanggal: '3 November 2026',
+  jenis: ['Cuaca Ekstrem','Banjir','Gempa','Gas Beracun','Erupsi','Kebakaran Permukiman','Kekeringan','Tanah Longsor','Karhutla','Gelombang Pasang','Kegagalan Teknologi'],
+  rows: {
+    2014:[204,204,27,1,31,343,13,259,0,3,0], 2015:[308,175,3,1,0,595,9,493,0,0,0], 2016:[416,298,0,0,0,467,0,945,0,0,0],
+    2017:[484,268,11,0,1,600,0,1088,0,0,0], 2018:[415,172,3,0,5,50,30,562,0,4,0], 2019:[706,171,5,0,2,718,32,718,301,6,0],
+    2020:[629,459,2,2,12,356,21,1387,39,23,0], 2021:[428,246,5,0,6,218,15,710,28,6,0], 2022:[671,374,4,0,1,312,10,1056,2,20,0],
+    2023:[115,132,12,0,8,0,34,126,492,28,0], 2024:[222,185,3,0,2,28,28,122,253,0,0], 2025:[123,146,1,0,0,16,16,45,20,0,1]
+  }
+};
+
+/* ---------- referensi ---------- */
+// Urutan tampilan mengikuti kolom sheet Overview.
+const HAZARDS = [
+  {nama:'Cuaca Ekstrem', v:'--hz-cuaca'}, {nama:'Banjir', v:'--hz-banjir'}, {nama:'Gempa', v:'--hz-gempa'},
+  {nama:'Gas Beracun', v:'--hz-gas'}, {nama:'Erupsi', v:'--hz-erupsi'}, {nama:'Kebakaran Permukiman', v:'--hz-kebakaran'},
+  {nama:'Kekeringan', v:'--hz-kekeringan'}, {nama:'Tanah Longsor', v:'--hz-longsor'}, {nama:'Karhutla', v:'--hz-karhutla'},
+  {nama:'Gelombang Pasang', v:'--hz-gelombang'}, {nama:'Kegagalan Teknologi', v:'--hz-teknologi'}
+];
+// Urutan pencocokan teks: yang paling spesifik lebih dulu.
+const HAZARD_MATCH = [
+  ['Karhutla', ['karhutla','kebakaran hutan','kebakaran lahan','hutan dan lahan']],
+  ['Kebakaran Permukiman', ['kebakaran gedung','permukiman','pemukiman','kebakaran rumah','kebakaran']],
+  ['Kegagalan Teknologi', ['kegagalan teknologi','teknologi']],
+  ['Gas Beracun', ['gas beracun','gas']],
+  ['Erupsi', ['erupsi','gunung api','gunungapi']],
+  ['Gempa', ['gempa']],
+  ['Gelombang Pasang', ['gelombang','abrasi','pasang']],
+  ['Kekeringan', ['kekeringan']],
+  ['Tanah Longsor', ['longsor','gerakan tanah']],
+  ['Banjir', ['banjir','genangan','rob','tanggul']],
+  ['Cuaca Ekstrem', ['cuaca','angin','puting','beliung']]
+];
+const WILAYAH = [
+  ['Kab. Cilacap',-7.55,108.88],['Kab. Banyumas',-7.45,109.17],['Kab. Purbalingga',-7.33,109.40],['Kab. Banjarnegara',-7.34,109.68],
+  ['Kab. Kebumen',-7.63,109.62],['Kab. Purworejo',-7.70,110.00],['Kab. Wonosobo',-7.36,109.90],['Kab. Magelang',-7.53,110.25],
+  ['Kab. Boyolali',-7.45,110.62],['Kab. Klaten',-7.70,110.62],['Kab. Sukoharjo',-7.68,110.84],['Kab. Wonogiri',-7.92,110.95],
+  ['Kab. Karanganyar',-7.62,111.02],['Kab. Sragen',-7.40,110.98],['Kab. Grobogan',-7.12,110.92],['Kab. Blora',-7.05,111.40],
+  ['Kab. Rembang',-6.80,111.45],['Kab. Pati',-6.75,111.05],['Kab. Kudus',-6.80,110.86],['Kab. Jepara',-6.58,110.70],
+  ['Kab. Demak',-6.90,110.64],['Kab. Semarang',-7.20,110.44],['Kab. Temanggung',-7.30,110.15],['Kab. Kendal',-7.02,110.16],
+  ['Kab. Batang',-7.02,109.86],['Kab. Pekalongan',-7.06,109.62],['Kab. Pemalang',-7.06,109.42],['Kab. Tegal',-7.04,109.15],
+  ['Kab. Brebes',-7.05,108.90],['Kota Magelang',-7.47,110.22],['Kota Surakarta',-7.57,110.82],['Kota Salatiga',-7.33,110.50],
+  ['Kota Semarang',-7.00,110.42],['Kota Pekalongan',-6.89,109.68],['Kota Tegal',-6.87,109.14]
+];
+const BULAN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const BULAN_PANJANG = ['januari','februari','maret','april','mei','juni','juli','agustus','september','oktober','november','desember'];
+const fmt = n => (n||0).toLocaleString('id-ID');
+const fmt1 = n => (n||0).toLocaleString('id-ID', {maximumFractionDigits:1});
+function fmtRp(n){
+  if (!n) return '–';
+  const f = (v, s) => 'Rp ' + v.toLocaleString('id-ID', {maximumFractionDigits:1}) + ' ' + s;
+  if (n >= 1e12) return f(n/1e12, 'T');
+  if (n >= 1e9) return f(n/1e9, 'M');
+  if (n >= 1e6) return f(n/1e6, 'jt');
+  return 'Rp ' + fmt(n);
+}
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const $ = id => document.getElementById(id);
+const tglStr = d => `${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
+const rangeStr = c => `${c.TAHUN_AWAL}–${c.TAHUN_AKHIR}`;
+const sum = (rows, k) => rows.reduce((s,r) => s + (r[k]||0), 0);
+
+function wilayahKey(s){
+  s = String(s||'').toLowerCase().replace(/\s+/g,' ').trim();
+  const kota = /^kota\b/.test(s);
+  s = s.replace(/^(kabupaten|kab\.?|kota)\s*/,'').trim();
+  return (kota?'kota ':'') + s;
+}
+const WIL_MAP = new Map(WILAYAH.map(([n,la,lo]) => [wilayahKey(n), {nama:n, lat:la, lng:lo}]));
+function canonWilayah(s){ const w = WIL_MAP.get(wilayahKey(s)); return w ? w.nama : String(s||'').trim() || 'Tidak diketahui'; }
+function canonHazard(s){
+  const t = String(s||'').toLowerCase().trim();
+  const exact = HAZARDS.find(h => h.nama.toLowerCase() === t); if (exact) return exact.nama;
+  for (const [nama, keys] of HAZARD_MATCH) if (keys.some(k => t.includes(k))) return nama;
+  return String(s||'').trim() || 'Lainnya';
+}
+function hazardColor(nama){ const h = HAZARDS.find(x => x.nama === nama); return css(h ? h.v : '--hz-lain'); }
+const hzIndex = n => { const i = HAZARDS.findIndex(h => h.nama === n); return i < 0 ? 99 : i; };
+
+/* ---------- pembacaan nilai ---------- */
+// Angka format Indonesia: titik = ribuan, koma = desimal. "-" atau kosong = 0.
+function parseNum(v){
+  if (typeof v === 'number') return isFinite(v) ? v : 0;
+  let s = String(v ?? '').replace(/rp/ig,'').replace(/\s/g,'').trim();
+  if (!s || /^-+$/.test(s)) return 0;
+  s = s.replace(/[^\d.,-]/g,'');
+  if (s.includes('.') && s.includes(',')) s = s.lastIndexOf(',') > s.lastIndexOf('.') ? s.replace(/\./g,'').replace(',', '.') : s.replace(/,/g,'');
+  else if (s.includes(',')) s = /^\d{1,3}(,\d{3})+$/.test(s) ? s.replace(/,/g,'') : s.replace(',', '.');
+  else if (s.includes('.')) s = /^\d{1,3}(\.\d{3})+$/.test(s) ? s.replace(/\./g,'') : s;
+  const n = parseFloat(s); return isFinite(n) ? n : 0;
+}
+const parseCount = v => Math.round(parseNum(v));
+function parseCoord(v){
+  const s = String(v ?? '').trim(); if (!s || /^-+$/.test(s)) return null;
+  const n = parseFloat(s.replace(',', '.')); return isFinite(n) && n !== 0 ? n : null;
+}
+// Tanggal yang dikenali: 05/01/26, 05/01/2026, 5-1-2026, 2026-01-05, 5 Januari 2026, 05-Jan-26,
+// "Senin, 5 Januari 2026", rentang "5-7/01/26" atau "5 - 7 Januari 2026" (diambil hari pertama).
+const MON = {jan:0,feb:1,mar:2,apr:3,mei:4,may:4,jun:5,jul:6,agu:7,agt:7,aug:7,sep:8,okt:9,oct:9,nov:10,nop:10,des:11,dec:11};
+function validDate(y, mo, d){ if (mo < 0 || mo > 11 || d < 1 || d > 31) return null; const t = new Date(y, mo, d); return t.getMonth() === mo ? t : null; }
+function parseDateCore(s){
+  const yy = y => { y = +y; return y < 100 ? 2000 + y : y; };
+  let m = s.match(/^date\((\d+),(\d+),(\d+)/); if (m) return new Date(+m[1], +m[2], +m[3]);
+  m = s.match(/^(\d{1,2})([\/\-.])(\d{1,2})\2(\d{2}|\d{4})\b/); if (m) return validDate(yy(m[4]), +m[3]-1, +m[1]);
+  m = s.match(/^(\d{4})([\/\-.])(\d{1,2})\2(\d{1,2})/); if (m) return validDate(+m[1], +m[3]-1, +m[4]);
+  m = s.match(/^(\d{1,2})[\s\-\/.]+([a-z]{3,})\.?[\s\-\/.,]+(\d{2}|\d{4})\b/);
+  if (m && MON[m[2].slice(0,3)] != null) return validDate(yy(m[3]), MON[m[2].slice(0,3)], +m[1]);
+  if (/^\d{5}(\.\d+)?$/.test(s)) return new Date(Math.round((parseFloat(s) - 25569) * 864e5));
+  return null;
+}
+function parseDate(v){
+  if (v instanceof Date) return isNaN(v) ? null : v;
+  let s = String(v ?? '').trim().toLowerCase().replace(/\s+/g,' '); if (!s) return null;
+  s = s.replace(/^[a-z']+,\s*/, '');
+  return parseDateCore(s) || parseDateCore(s.replace(/^(\d{1,2})\s*(?:-|–|s\.?\s?d\.?|hingga|sampai)\s*\d{1,2}(?=[\s\/\-.])/, '$1'));
+}
+const cleanList = s => String(s ?? '').replace(/\r/g,'').split(/\n|;/).map(x => x.trim().replace(/\s{2,}/g,' ')).filter(x => x && x !== '-').join('; ');
+
+/* ---------- pemuatan tabel ---------- */
+// Hasil: {headers:[...], rows:[[teks sel...], ...]} — nilai sel berupa teks seperti tampil di sheet.
+function loadViaGviz(id, sheet){
+  return new Promise((resolve, reject) => {
+    const cb = '__gviz' + Date.now() + Math.floor(Math.random()*1e6);
+    const s = document.createElement('script');
+    const timer = setTimeout(() => { done(); reject(new Error('Waktu tunggu habis.')); }, 20000);
+    function done(){ clearTimeout(timer); try { delete window[cb]; } catch(e){} s.remove(); }
+    window[cb] = resp => {
+      done();
+      if (resp.status === 'error') return reject(new Error((resp.errors && resp.errors[0] && (resp.errors[0].detailed_message || resp.errors[0].message)) || 'Sheet tidak dapat dibaca.'));
+      const t = resp.table;
+      const cellText = c => { if (!c) return ''; if (c.f != null) return String(c.f);
+        if (typeof c.v === 'string' && /^Date\(/.test(c.v)) { const d = parseDate(c.v); return d ? `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}` : ''; }
+        return c.v == null ? '' : String(c.v); };
+      resolve({headers:t.cols.map(c => c.label || ''), rows:t.rows.map(r => (r.c || []).map(cellText))});
+    };
+    s.onerror = () => { done(); reject(new Error('Sheet tidak dapat dimuat.')); };
+    s.src = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(id)}/gviz/tq?tqx=responseHandler:${cb}&headers=1&sheet=${encodeURIComponent(sheet)}`;
+    document.head.appendChild(s);
+  });
+}
+async function loadViaProxy(id, sheet){
+  const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 25000);
+  const res = await fetch(`${CONFIG.PROXY_URL}?id=${encodeURIComponent(id)}&sheet=${encodeURIComponent(sheet)}`, {signal:ctrl.signal});
+  clearTimeout(t);
+  const j = await res.json();
+  if (!j.ok) throw new Error(j.error || 'Proxy gagal membaca sheet.');
+  return {headers:(j.rows[0] || []).map(String), rows:j.rows.slice(1).map(r => r.map(x => x == null ? '' : String(x)))};
+}
+const loadTable = (id, sheet) => CONFIG.PROXY_URL ? loadViaProxy(id, sheet) : loadViaGviz(id, sheet);
+const LOAD_HINT = 'Pastikan file sudah berformat Google Sheets (bukan .xlsx), dibagikan "Siapa saja yang memiliki link", dan nama tab sesuai.';
+
+/* Overview: kolom pertama Tahun, kolom berikutnya jenis bencana. */
+function parseOverview(tbl){
+  const jenisCols = tbl.headers.map((h, i) => i === 0 || !String(h).trim() ? null : canonHazard(h));
+  const out = {};
+  for (const r of tbl.rows){
+    const y = parseInt(String(r[0]).replace(/\D/g,''), 10);
+    if (!(y > 1990 && y < 2100)) continue;
+    out[y] = {};
+    jenisCols.forEach((j, i) => { if (j) out[y][j] = (out[y][j] || 0) + parseCount(r[i]); });
+  }
+  if (!Object.keys(out).length) throw new Error('Tidak ada baris tahun di sheet Overview.');
+  return out;
+}
+function snapshotOverview(){
+  const out = {};
+  for (const y in OVERVIEW_SNAPSHOT.rows){ out[y] = {}; OVERVIEW_SNAPSHOT.jenis.forEach((j, i) => out[y][j] = OVERVIEW_SNAPSHOT.rows[y][i]); }
+  return out;
+}
+
+/* Data kejadian: nama kolom dikenali dari judul baris pertama. */
+const normHead = s => String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+const ALIAS = {
+  tanggal:['tanggal','tanggal_kejadian','tgl','tgl_kejadian','waktu'],
+  kab:['kabupaten_kota','kab_kota','kabupaten','kota','wilayah'],
+  kecamatan:['kecamatan','kec'], desa:['desa','desa_kelurahan','kelurahan','desa_kel'],
+  jenis:['jenis_bencana','jenis','bencana'], nama:['nama_kejadian','kejadian','sub_jenis'],
+  meninggal:['meninggal','meninggal_dunia','md'], hilang:['hilang'], luka:['luka','luka_luka'],
+  mengungsi:['mengungsi','pengungsi'], terdampak:['terdampak','terdampak_jiwa','menderita','jiwa_terdampak'],
+  rusak:['rumah_rusak','rusak'], rb:['rumah_rusak_berat','rusak_berat'], rs:['rumah_rusak_sedang','rusak_sedang'], rr:['rumah_rusak_ringan','rusak_ringan'],
+  terendam:['rumah_terendam','terendam'], sekolah:['sekolah_terdampak','sekolah'],
+  sawah:['sawah_hektar','sawah','sawah_ha'], lahan:['lahan_hektar','lahan','lahan_ha'], hutan:['hutan_hektar','hutan','hutan_ha'],
+  kerugian:['kerugian','kerugian_rp','taksiran_kerugian'],
+  lat:['latitude','lat','lintang'], lng:['longitude','lng','lon','long','bujur'], ket:['keterangan','catatan','kronologi','penyebab']
+};
+function parseEvents(tbl, sheetName){
+  const heads = tbl.headers.map(normHead);
+  const idx = {}; for (const k in ALIAS) idx[k] = heads.findIndex(h => ALIAS[k].includes(h));
+  if (idx.tanggal < 0 || idx.kab < 0 || idx.jenis < 0) throw new Error(`Tab "${sheetName}": kolom tanggal, kabupaten_kota, atau jenis_bencana tidak ditemukan.`);
+  const g = (r, k) => idx[k] < 0 ? '' : (r[idx[k]] ?? '');
+  const out = [], skipped = [];
+  tbl.rows.forEach((r, i) => {
+    if (!r.some(x => String(x).trim() && String(x).trim() !== '-')) return;
+    const raw = String(g(r,'tanggal')).trim(), baris = i + 2;
+    const skip = alasan => skipped.push({tab:sheetName, baris, raw, alasan});
+    if (!raw) return skip('Tanggal kosong. Bisa karena sel tanggal digabung (merge) dengan baris di atasnya, atau Google mengosongkan sel yang formatnya berbeda dari mayoritas kolom.');
+    const tgl = parseDate(raw);
+    if (!tgl) return skip('Format tanggal tidak dikenali. Gunakan hari/bulan/tahun, misalnya 05/01/2026.');
+    if (!String(g(r,'jenis')).trim()) return skip('Kolom jenis_bencana kosong.');
+    const kab = canonWilayah(g(r,'kab'));
+    let lat = parseCoord(g(r,'lat')), lng = parseCoord(g(r,'lng')), approx = false;
+    if (lat == null || lng == null){
+      const w = WIL_MAP.get(wilayahKey(kab));
+      if (w){ const j = jitter(out.length + tgl.getTime()/864e5); lat = w.lat + j[0]; lng = w.lng + j[1]; approx = true; } else { lat = lng = null; }
+    }
+    const rusak = idx.rusak >= 0 ? parseCount(g(r,'rusak')) : parseCount(g(r,'rb')) + parseCount(g(r,'rs')) + parseCount(g(r,'rr'));
+    out.push({tanggal:tgl, kab, jenis:canonHazard(g(r,'jenis')), nama:String(g(r,'nama')).trim(),
+      kecamatan:cleanList(g(r,'kecamatan')), desa:cleanList(g(r,'desa')),
+      meninggal:parseCount(g(r,'meninggal')), hilang:parseCount(g(r,'hilang')), luka:parseCount(g(r,'luka')),
+      mengungsi:parseCount(g(r,'mengungsi')), terdampak:parseCount(g(r,'terdampak')),
+      rusak, terendam:parseCount(g(r,'terendam')), sekolah:parseCount(g(r,'sekolah')),
+      sawah:parseNum(g(r,'sawah')), lahan:parseNum(g(r,'lahan')) + parseNum(g(r,'hutan')), kerugian:parseNum(g(r,'kerugian')),
+      lat, lng, approx, ket:String(g(r,'ket')).replace(/\s+/g,' ').trim().replace(/^-$/,''), _tab:sheetName, _baris:baris, _raw:raw});
+  });
+  return {rows:out, skipped};
+}
+function jitter(seed){ const a = Math.sin(seed * 12.9898) * 43758.5453, b = Math.sin(seed * 78.233) * 12543.1234;
+  return [((a - Math.floor(a)) - .5) * .14, ((b - Math.floor(b)) - .5) * .18]; }
+
+/* ---------- data dummy untuk Data History ---------- */
+// Jumlah kejadian per jenis per tahun mengikuti sheet Overview; rincian (lokasi, tanggal, dampak) dibangkitkan acak.
+function dummyHistory(ov, c){
+  let seed = 20141; const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const ri = (a,b) => Math.floor(a + rnd()*(b-a+1));
+  const aff = {
+    'Banjir':['Kab. Demak','Kota Semarang','Kab. Pekalongan','Kota Pekalongan','Kab. Pati','Kab. Kudus','Kab. Grobogan','Kab. Brebes','Kab. Cilacap','Kab. Sragen'],
+    'Tanah Longsor':['Kab. Banjarnegara','Kab. Wonosobo','Kab. Purbalingga','Kab. Banyumas','Kab. Cilacap','Kab. Kebumen','Kab. Magelang','Kab. Temanggung','Kab. Karanganyar','Kab. Purworejo'],
+    'Karhutla':['Kab. Wonogiri','Kab. Blora','Kab. Rembang','Kab. Boyolali','Kab. Grobogan','Kab. Magelang','Kab. Karanganyar'],
+    'Kekeringan':['Kab. Blora','Kab. Grobogan','Kab. Wonogiri','Kab. Rembang','Kab. Sragen','Kab. Pati','Kab. Boyolali'],
+    'Gempa':['Kab. Cilacap','Kab. Kebumen','Kab. Banyumas','Kab. Purworejo','Kab. Banjarnegara'],
+    'Gelombang Pasang':['Kab. Demak','Kab. Cilacap','Kab. Kebumen','Kab. Kendal','Kab. Batang','Kab. Brebes','Kab. Rembang'],
+    'Erupsi':['Kab. Magelang','Kab. Boyolali','Kab. Klaten'],
+    'Gas Beracun':['Kab. Banjarnegara'],
+    'Kebakaran Permukiman':['Kota Semarang','Kota Surakarta','Kab. Klaten','Kab. Banyumas','Kab. Sukoharjo','Kab. Cilacap','Kab. Kudus']
+  };
+  const season = {'Banjir':[5,5,4,2,1,.5,.3,.3,.4,1,3,5], 'Tanah Longsor':[5,5,4,3,1,.6,.4,.4,.6,1.5,4,5], 'Cuaca Ekstrem':[4,4,3,2,1.5,1,1,1,1.5,3,4,4],
+    'Karhutla':[.1,.1,.2,.3,.8,1.5,3,5,5,4,1,.2], 'Kekeringan':[.1,.1,.1,.2,.6,1.5,3,5,5,4,.8,.1]};
+  const pickMonth = j => { const w = season[j] || [1,1,1,1,1,1,1,1,1,1,1,1]; const tot = w.reduce((a,b)=>a+b,0); let r = rnd()*tot; for (let m = 0; m < 12; m++){ if ((r -= w[m]) <= 0) return m; } return 11; };
+  const out = [];
+  for (let y = c.TAHUN_AWAL; y <= c.TAHUN_AKHIR; y++){
+    const row = ov[y]; if (!row) continue;
+    for (const j in row){
+      for (let i = 0; i < row[j]; i++){
+        const m = pickMonth(j), days = new Date(y, m+1, 0).getDate();
+        const kabN = aff[j] && rnd() < .85 ? aff[j][ri(0, aff[j].length-1)] : WILAYAH[ri(0, WILAYAH.length-1)][0];
+        const w = WIL_MAP.get(wilayahKey(kabN));
+        const r = {tanggal:new Date(y, m, ri(1, days)), kab:kabN, jenis:j, nama:'', kecamatan:'', desa:'',
+          meninggal:0, hilang:0, luka:0, mengungsi:0, terdampak:0, rusak:0, terendam:0, sekolah:0, sawah:0, lahan:0, kerugian:0,
+          lat:w.lat + (rnd()-.5)*.22, lng:w.lng + (rnd()-.5)*.26, approx:false, ket:'Data dummy'};
+        if (j === 'Banjir'){ r.terendam = ri(5, rnd()<.2?1500:300); r.terdampak = r.terendam*ri(3,4); if (rnd()<.2) r.mengungsi = Math.round(r.terdampak*rnd()*.3); if (rnd()<.3) r.sawah = ri(5,400); if (rnd()<.03) r.meninggal = 1; }
+        else if (j === 'Tanah Longsor'){ r.rusak = ri(0,10); r.terdampak = r.rusak*ri(3,4); if (rnd()<.05) r.meninggal = ri(1,2); if (rnd()<.1) r.luka = ri(1,3); if (rnd()<.3) r.kerugian = ri(5,300)*1e6; }
+        else if (j === 'Cuaca Ekstrem'){ r.rusak = ri(1,40); r.terdampak = r.rusak*ri(3,4); if (rnd()<.08) r.luka = ri(1,3); if (rnd()<.4) r.kerugian = ri(5,150)*1e6; }
+        else if (j === 'Karhutla'){ r.lahan = ri(1,40); }
+        else if (j === 'Kekeringan'){ r.terdampak = ri(300,9000); }
+        else if (j === 'Kebakaran Permukiman'){ r.rusak = ri(1,3); r.terdampak = r.rusak*ri(3,5); r.kerugian = ri(20,800)*1e6; if (rnd()<.05) r.luka = 1; }
+        else if (j === 'Gempa'){ r.rusak = ri(0,20); r.terdampak = r.rusak*4; }
+        else if (j === 'Gelombang Pasang'){ r.rusak = ri(0,6); r.terdampak = ri(20,400); }
+        else if (j === 'Erupsi'){ r.terdampak = ri(100,2000); r.mengungsi = Math.round(r.terdampak*.3); }
+        out.push(r);
+      }
+    }
+  }
+  return out;
+}
+
+/* ---------- state ---------- */
+const MODES = {
+  bencana: {cfg:CONFIG.DATA.bencana, label:'Data Bencana', route:'data-bencana'},
+  history: {cfg:CONFIG.DATA.history, label:'Data History', route:'data-history'}
+};
+let OV = {}, OV_STATUS = {kind:'', pill:'Memuat data…', text:''};
+const DATA = {bencana:[], history:[]};
+const STATUS = {bencana:{kind:'', pill:'Memuat data…', text:'', errors:[]}, history:{kind:'', pill:'Memuat data…', text:'', errors:[]}};
+const ST = {}; for (const k in MODES) ST[k] = {tahun:'', kab:'', jenis:'', q:'', page:1, rows:10};
+let MODE = 'bencana', loaded = false;
+const st = () => ST[MODE];
+const inRange = (r, c) => { const y = r.tanggal.getFullYear(); return y >= c.TAHUN_AWAL && y <= c.TAHUN_AKHIR; };
+const filtered = () => { const s = st(); return DATA[MODE].filter(r => (!s.tahun || r.tanggal.getFullYear() == s.tahun) && (!s.kab || r.kab === s.kab) && (!s.jenis || r.jenis === s.jenis)); };
+const jam = () => { const n = new Date(); return `${String(n.getHours()).padStart(2,'0')}.${String(n.getMinutes()).padStart(2,'0')}`; };
+
+async function loadOverview(){
+  const c = CONFIG.OVERVIEW;
+  if (!c.SHEET_ID){ OV = snapshotOverview(); OV_STATUS = {kind:'sample', pill:'Cuplikan data', text:`Memakai cuplikan sheet Overview per ${OVERVIEW_SNAPSHOT.tanggal}. Isi OVERVIEW.SHEET_ID agar data selalu terbaru.`}; return; }
+  try {
+    OV = parseOverview(await loadTable(c.SHEET_ID, c.SHEET_NAME));
+    OV_STATUS = {kind:'live', pill:'Google Sheets', text:`Rekap dari sheet Overview · dimuat pukul ${jam()}`};
+  } catch(e){
+    OV = snapshotOverview();
+    OV_STATUS = {kind:'sample', pill:'Cuplikan data', text:`Sheet Overview tidak dapat dimuat (${e.message}), jadi yang tampil adalah cuplikan per ${OVERVIEW_SNAPSHOT.tanggal}. ${LOAD_HINT}`};
+  }
+}
+async function loadMode(k){
+  const c = MODES[k].cfg;
+  if (!c.SHEET_ID){
+    DATA[k] = dummyHistory(OV, c);
+    STATUS[k] = {kind:'sample', pill:'Data dummy', errors:[], text:`Jumlah kejadian per jenis dan tahun mengikuti sheet Overview, tetapi rincian lokasi, tanggal, dan dampaknya dibangkitkan acak untuk peragaan. Isi SHEET_ID di bagian PENGATURAN jika data aslinya sudah siap.`};
+    return;
+  }
+  const results = await Promise.allSettled(c.SHEET_NAMES.map(n => loadTable(c.SHEET_ID, n).then(t => ({n, ...parseEvents(t, n)}))));
+  const rows = [], errors = [], okTabs = [], skipped = [], warn = [];
+  results.forEach((r, i) => {
+    if (r.status === 'fulfilled'){ rows.push(...r.value.rows); skipped.push(...r.value.skipped); okTabs.push(r.value.n); }
+    else errors.push(`Tab "${c.SHEET_NAMES[i]}": ${r.reason.message}`);
+  });
+  DATA[k] = [];
+  for (const x of rows){
+    const y = x.tanggal.getFullYear();
+    if (!inRange(x, c)){ skipped.push({tab:x._tab, baris:x._baris, raw:x._raw, alasan:`Terbaca sebagai tahun ${y}, di luar rentang ${rangeStr(c)}. Periksa penulisan tahun.`}); continue; }
+    if (/^\d{4}$/.test(x._tab) && +x._tab !== y) warn.push({tab:x._tab, baris:x._baris, raw:x._raw, alasan:`Tetap dimuat, tetapi tercatat di tahun ${y} padahal berada di tab ${x._tab}. Periksa apakah tahunnya salah ketik.`});
+    DATA[k].push(x);
+  }
+  skipped.sort((a,b) => String(a.tab).localeCompare(String(b.tab)) || a.baris - b.baris);
+  const per = {}; DATA[k].forEach(x => per[x._tab] = (per[x._tab]||0) + 1);
+  const perTab = okTabs.map(n => `${n}: ${fmt(per[n]||0)}`).join(', ');
+  if (!okTabs.length) STATUS[k] = {kind:'err', pill:'Gagal memuat', text:'Data tidak dapat dimuat dari Google Sheets.', errors, skipped, warn};
+  else STATUS[k] = {kind: errors.length ? 'err' : 'live', pill: errors.length ? 'Sebagian dimuat' : 'Google Sheets', errors, skipped, warn,
+    text:`${fmt(DATA[k].length)} kejadian dimuat (${perTab}) · pukul ${jam()}${skipped.length ? ` · ${fmt(skipped.length)} baris tidak terbaca` : ''}${warn.length ? ` · ${fmt(warn.length)} baris perlu dicek` : ''}`};
+}
+async function loadAll(){
+  loaded = false;
+  OV_STATUS = {kind:'', pill:'Memuat data…', text:''};
+  for (const k in STATUS) STATUS[k] = {kind:'', pill:'Memuat data…', text:'', errors:[]};
+  paintStatus();
+  await loadOverview();              // Data History dummy memakai angka Overview
+  await Promise.all(Object.keys(MODES).map(loadMode));
+  loaded = true;
+  paintStatus();
+  route();
+}
+function setPill(id, kind, text){ const p = $(id); p.className = 'pill ' + kind; p.querySelector('span').textContent = text; }
+function paintStatus(){
+  setPill('ov-pill', OV_STATUS.kind, OV_STATUS.pill); $('ov-status').textContent = OV_STATUS.text;
+  const s = STATUS[MODE];
+  setPill('d-pill', s.kind, s.pill); $('d-status').textContent = s.text;
+  const n = $('d-notice');
+  if (s.errors && s.errors.length){
+    n.hidden = false;
+    n.innerHTML = `<b>Sebagian data belum terbaca.</b> ${s.errors.map(esc).join(' · ')}
+      <ol><li>Buka file di Google Drive, lalu pilih <i>File → Simpan sebagai Google Spreadsheet</i> jika file masih .xlsx.</li>
+      <li>Bagikan file: <i>Siapa saja yang memiliki link → Pelihat</i>.</li>
+      <li>Salin ID file Google Spreadsheet yang baru ke bagian PENGATURAN, dan pastikan nama tab sama dengan isian SHEET_NAMES.</li></ol>`;
+  } else n.hidden = true;
+  const sk = $('d-skip'), list = [...(s.skipped||[]), ...(s.warn||[])];
+  sk.hidden = !list.length;
+  if (list.length){
+    $('d-skip-sum').textContent = `Lihat ${fmt(list.length)} baris yang tidak terbaca atau perlu dicek`;
+    $('d-skip-body').innerHTML = list.slice(0, 300).map(x => `<tr><td>${esc(x.tab)}</td><td class="n">${x.baris}</td><td class="mono">${x.raw ? esc(x.raw) : '<span class="dim">(kosong)</span>'}</td><td>${esc(x.alasan)}</td></tr>`).join('')
+      + (list.length > 300 ? `<tr><td colspan="4" class="dim">…dan ${fmt(list.length - 300)} baris lainnya</td></tr>` : '');
+  }
+}
+
+/* ---------- chart helpers ---------- */
+const charts = {};
+function chartBase(){
+  return {
+    responsive:true, maintainAspectRatio:false, animation:matchMedia('(prefers-reduced-motion: reduce)').matches ? false : {duration:300},
+    plugins:{legend:{display:false}, tooltip:{backgroundColor:css('--surface'), titleColor:css('--ink'), bodyColor:css('--ink'), footerColor:css('--muted'), borderColor:css('--line'), borderWidth:1, padding:10,
+      titleFont:{family:css('--f-body'), weight:'600'}, bodyFont:{family:css('--f-body')}, callbacks:{label:c => ` ${c.dataset.label ? c.dataset.label+': ' : ''}${fmt(c.parsed[c.chart.options.indexAxis === 'y' ? 'x' : 'y'])}`}}}
+  };
+}
+function axis(extra){ return Object.assign({grid:{color:css('--line'), drawTicks:false}, border:{display:false}, ticks:{color:css('--muted'), font:{family:css('--f-body'), size:12}, padding:6}}, extra||{}); }
+function draw(id, cfg){ if (charts[id]) charts[id].destroy(); charts[id] = new Chart($(id), cfg); }
+function hbar(id, labels, values, colors){
+  draw(id, {type:'bar', data:{labels, datasets:[{data:values, backgroundColor:colors, borderRadius:3, barPercentage:.78, categoryPercentage:.9}]},
+    options:Object.assign(chartBase(), {indexAxis:'y', scales:{x:axis({beginAtZero:true, ticks:{color:css('--muted'), font:{family:css('--f-body'), size:12}, callback:v => fmt(v)}}), y:axis({grid:{display:false}})}})});
+}
+// series: [{label, color, data:[...]}]
+function stackedBars(id, labels, series){
+  const base = chartBase();
+  draw(id, {type:'bar', data:{labels, datasets:series.map(s => ({label:s.label, data:s.data, backgroundColor:s.color, borderWidth:0, barPercentage:.85, categoryPercentage:.9}))},
+    options:Object.assign(base, {interaction:{mode:'index', intersect:false},
+      plugins:Object.assign(base.plugins, {legend:{display:true, position:'bottom', labels:{color:css('--muted'), boxWidth:10, boxHeight:10, usePointStyle:true, pointStyle:'circle', font:{family:css('--f-body'), size:12}, padding:12}},
+        tooltip:Object.assign(base.plugins.tooltip, {filter:i => i.parsed.y > 0, callbacks:{label:c => ` ${c.dataset.label}: ${fmt(c.parsed.y)}`, footer:items => 'Total: ' + fmt(items.reduce((s,i) => s + i.parsed.y, 0))}})}),
+      scales:{x:axis({stacked:true, grid:{display:false}, ticks:{color:css('--muted'), font:{family:css('--f-body'), size:11}, maxRotation:0, autoSkipPadding:10}}), y:axis({stacked:true, beginAtZero:true, ticks:{color:css('--muted'), font:{family:css('--f-body'), size:12}, precision:0, callback:v => fmt(v)}})}})});
+}
+function stackedFromRows(id, labels, rows, keyOf, keys){
+  const jenisT = [...new Set(rows.map(r => r.jenis))].sort((a,b) => hzIndex(a) - hzIndex(b));
+  const grid = {}; rows.forEach(r => { const k = r.jenis+'|'+keyOf(r); grid[k] = (grid[k]||0) + 1; });
+  stackedBars(id, labels, jenisT.map(j => ({label:j, color:hazardColor(j), data:keys.map(k => grid[j+'|'+k]||0)})));
+}
+
+/* =================== OVERVIEW =================== */
+function renderOverview(){
+  const years = Object.keys(OV).map(Number).sort((a,b) => a-b);
+  const jenis = [...new Set(years.flatMap(y => Object.keys(OV[y])))].sort((a,b) => hzIndex(a) - hzIndex(b));
+  const tot = y => jenis.reduce((s,j) => s + (OV[y][j]||0), 0);
+  const y0 = years[0], y1 = years[years.length-1];
+  const all = years.reduce((s,y) => s + tot(y), 0);
+  const perJ = {}; jenis.forEach(j => perJ[j] = years.reduce((s,y) => s + (OV[y][j]||0), 0));
+  const topJ = jenis.slice().sort((a,b) => perJ[b] - perJ[a])[0];
+  const topY = years.slice().sort((a,b) => tot(b) - tot(a))[0];
+  const range = years.length ? `${y0}–${y1}` : '';
+  $('ov-eyebrow').textContent = `Overview · ${range}`;
+  $('ov-r0').textContent = range;
+  $('ov-k1').textContent = fmt(all); $('ov-k1s').textContent = `tahun ${range}`;
+  $('ov-k2').textContent = years.length ? fmt(Math.round(all / years.length)) : '—';
+  $('ov-k3').textContent = topY ?? '—'; $('ov-k3s').textContent = topY ? `${fmt(tot(topY))} kejadian` : '';
+  $('ov-k4').textContent = topJ ?? '—'; $('ov-k4s').textContent = topJ ? `${fmt(perJ[topJ])} kejadian (${Math.round(perJ[topJ]/all*100)}%)` : '';
+
+  stackedBars('c-ov-tahun', years.map(String), jenis.map(j => ({label:j, color:hazardColor(j), data:years.map(y => OV[y][j]||0)})));
+  const jl = jenis.filter(j => perJ[j] > 0).sort((a,b) => perJ[b] - perJ[a]);
+  hbar('c-ov-jenis', jl, jl.map(j => perJ[j]), jl.map(hazardColor));
+  $('ov-komp-sub').textContent = `Total ${range}`;
+
+  // tahun berjalan dari Data Bencana
+  const b = DATA.bencana;
+  if (b.length){
+    const last = b.reduce((m,r) => r.tanggal > m ? r.tanggal : m, new Date(0));
+    const ly = last.getFullYear(), lm = last.getMonth();
+    const ytd = b.filter(r => r.tanggal.getFullYear() === ly && r.tanggal.getMonth() <= lm).length;
+    const prev = b.filter(r => r.tanggal.getFullYear() === ly-1 && r.tanggal.getMonth() <= lm).length;
+    $('ov-ytd').textContent = fmt(ytd);
+    $('ov-ytd-s').textContent = `kejadian, Jan–${BULAN[lm]} ${ly}`;
+    const d = $('ov-ytd-d');
+    if (prev){ const pct = Math.round((ytd - prev) / prev * 100);
+      d.className = 'delta ' + (pct > 0 ? 'up' : pct < 0 ? 'down' : '');
+      d.textContent = `${pct > 0 ? '▲' : pct < 0 ? '▼' : '='} ${Math.abs(pct)}% dibanding Jan–${BULAN[lm]} ${ly-1} (${fmt(prev)})`; }
+    else { d.className = 'delta'; d.textContent = 'Sumber: Data Bencana'; }
+  } else { $('ov-ytd').textContent = '—'; $('ov-ytd-s').textContent = 'Data Bencana belum dimuat'; $('ov-ytd-d').textContent = ''; }
+
+  // tabel rekap
+  const bc = CONFIG.DATA.bencana, hc = CONFIG.DATA.history;
+  const t = $('ov-table');
+  t.querySelector('thead').innerHTML = `<tr><th>Tahun</th>${jenis.map(j => `<th class="n hz"><span class="chip" style="justify-content:flex-end;white-space:normal"><i style="background:${hazardColor(j)}"></i>${esc(j)}</span></th>`).join('')}<th class="n">Total</th></tr>`;
+  t.querySelector('tbody').innerHTML = years.slice().reverse().map(y => {
+    const mode = y >= bc.TAHUN_AWAL && y <= bc.TAHUN_AKHIR ? 'bencana' : y >= hc.TAHUN_AWAL && y <= hc.TAHUN_AKHIR ? 'history' : null;
+    const cell = mode ? `<a href="#${MODES[mode].route}" data-year="${y}" data-mode="${mode}" class="yr-link"><b class="num">${y}</b></a>` : `<b class="num">${y}</b>`;
+    return `<tr><td>${cell}</td>${jenis.map(j => `<td class="n${OV[y][j] ? '' : ' z'}">${fmt(OV[y][j]||0)}</td>`).join('')}<td class="n"><b>${fmt(tot(y))}</b></td></tr>`;
+  }).join('');
+  t.querySelector('tfoot').innerHTML = `<tr><td>Jumlah</td>${jenis.map(j => `<td class="n">${fmt(perJ[j])}</td>`).join('')}<td class="n">${fmt(all)}</td></tr>`;
+
+  // kejadian terbaru
+  const latest = DATA.bencana.slice().sort((a,b) => b.tanggal - a.tanggal).slice(0, 6);
+  $('ov-latest').innerHTML = latest.length ? latest.map(r => `<li>
+      <span class="mono">${tglStr(r.tanggal)}</span>
+      <span class="w"><span class="chip"><i style="background:${hazardColor(r.jenis)}"></i>${esc(r.jenis)}${r.nama && r.nama.toLowerCase() !== r.jenis.toLowerCase() ? ' · '+esc(r.nama) : ''}</span><small>${esc(r.kab)}${r.kecamatan ? ' · '+esc(r.kecamatan) : ''}</small></span>
+      <span class="num dim" style="font-size:13px;white-space:nowrap">${r.terdampak ? fmt(r.terdampak)+' jiwa' : r.rusak ? fmt(r.rusak)+' rumah' : ''}</span></li>`).join('')
+    : `<li class="dim">${STATUS.bencana.kind === 'err' ? 'Data Bencana belum dapat dimuat. Lihat petunjuk di menu Data Bencana.' : 'Belum ada data kejadian.'}</li>`;
+}
+
+function renderEws(){
+  $('ews-links').innerHTML = CONFIG.EWS_LINKS.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener"><b>${esc(l.judul)}</b><small>${esc(l.ket)}</small><span aria-hidden="true">↗</span></a>`).join('');
+}
+async function loadQuake(){
+  const box = $('quake-body');
+  if (!CONFIG.GEMPA_JSON){ $('quake').hidden = true; return; }
+  try {
+    const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 10000);
+    const res = await fetch(CONFIG.GEMPA_JSON, {cache:'no-store', signal:ctrl.signal}); clearTimeout(t);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const g = (await res.json()).Infogempa.gempa;
+    box.className = '';
+    box.innerHTML = `<div class="mag"><b>${esc(g.Magnitude)}</b><span class="dim">magnitudo · kedalaman ${esc(g.Kedalaman)}</span></div>
+      <dl><dt>Waktu</dt><dd>${esc(g.Tanggal)}, ${esc(g.Jam)}</dd>
+      <dt>Lokasi</dt><dd>${esc(g.Wilayah)}</dd>
+      ${g.Lintang ? `<dt>Koordinat</dt><dd class="mono">${esc(g.Lintang)}, ${esc(g.Bujur)}</dd>` : ''}
+      ${g.Potensi ? `<dt>Potensi</dt><dd class="warn">${esc(g.Potensi)}</dd>` : ''}
+      ${g.Dirasakan ? `<dt>Dirasakan</dt><dd>${esc(g.Dirasakan)}</dd>` : ''}</dl>`;
+  } catch(e){
+    box.className = 'empty';
+    box.innerHTML = 'Info gempabumi terkini tidak dapat dimuat di tampilan ini. Buka <a href="https://inatews.bmkg.go.id/" target="_blank" rel="noopener">InaTEWS BMKG</a> untuk informasi terbaru.';
+  }
+}
+
+/* =================== DATA BENCANA / HISTORY =================== */
+function fillFilters(){
+  const s = st(), c = MODES[MODE].cfg, rows = DATA[MODE];
+  const years = []; for (let y = c.TAHUN_AKHIR; y >= c.TAHUN_AWAL; y--) years.push(y);
+  const kabs = [...new Set(rows.map(r => r.kab))].sort((a,b) => a.replace(/^(Kab\.|Kota) /,'').localeCompare(b.replace(/^(Kab\.|Kota) /,''), 'id'));
+  const jenis = [...new Set(rows.map(r => r.jenis))].sort((a,b) => hzIndex(a) - hzIndex(b));
+  const opt = (sel, first, list, cur) => { sel.innerHTML = `<option value="">${first}</option>` + list.map(v => `<option${v==cur?' selected':''}>${esc(v)}</option>`).join(''); };
+  opt($('f-tahun'), `Semua tahun (${rangeStr(c)})`, years, s.tahun);
+  opt($('f-kab'), 'Semua kabupaten/kota', kabs, s.kab);
+  opt($('f-jenis'), 'Semua jenis bencana', jenis, s.jenis);
+  $('f-q').value = s.q; $('f-rows').value = String(s.rows);
+}
+function renderKPI(rows){
+  $('k-kejadian').textContent = fmt(rows.length);
+  $('k-kejadian-s').textContent = `di ${fmt(new Set(rows.map(r => r.kab)).size)} kabupaten/kota`;
+  for (const [id,k] of [['k-meninggal','meninggal'],['k-hilang','hilang'],['k-luka','luka'],['k-mengungsi','mengungsi'],['k-terdampak','terdampak'],['k-rusak','rusak'],['k-terendam','terendam'],['k-sekolah','sekolah']]) $(id).textContent = fmt(sum(rows,k));
+  $('k-sawah').textContent = fmt1(sum(rows,'sawah'));
+  $('k-lahan').textContent = fmt1(sum(rows,'lahan'));
+  $('k-kerugian').textContent = fmtRp(sum(rows,'kerugian'));
+}
+function renderCharts(rows){
+  const s = st(), c = MODES[MODE].cfg;
+  const byJ = {}, dampakJ = {};
+  rows.forEach(r => { byJ[r.jenis] = (byJ[r.jenis]||0) + 1; dampakJ[r.jenis] = (dampakJ[r.jenis]||0) + r.terdampak; });
+  const jl = Object.keys(byJ).sort((a,b) => byJ[b] - byJ[a]);
+  hbar('c-jenis', jl, jl.map(j => byJ[j]), jl.map(hazardColor));
+  const dl = Object.keys(dampakJ).filter(j => dampakJ[j] > 0).sort((a,b) => dampakJ[b] - dampakJ[a]);
+  hbar('c-dampak', dl, dl.map(j => dampakJ[j]), dl.map(hazardColor));
+  const byK = {}; rows.forEach(r => byK[r.kab] = (byK[r.kab]||0) + 1);
+  const kl = Object.keys(byK).sort((a,b) => byK[b] - byK[a]).slice(0,10);
+  hbar('c-kab', kl, kl.map(k => byK[k]), kl.map(() => css('--bar')));
+
+  if (MODE === 'history' && !s.tahun){
+    const years = []; for (let y = c.TAHUN_AWAL; y <= c.TAHUN_AKHIR; y++) years.push(y);
+    $('trend-title').textContent = 'Tren kejadian per tahun';
+    $('trend-sub').textContent = `${rangeStr(c)}, ditumpuk menurut jenis · pilih tahun untuk melihat per bulan`;
+    stackedFromRows('c-tren', years.map(String), rows, r => r.tanggal.getFullYear(), years);
+    return;
+  }
+  const months = [];
+  if (s.tahun) for (let m = 0; m < 12; m++) months.push(+s.tahun*12 + m);
+  else if (rows.length){
+    const t = rows.map(r => r.tanggal.getFullYear()*12 + r.tanggal.getMonth());
+    for (let k = Math.min(...t); k <= Math.max(...t); k++) months.push(k);
+  }
+  $('trend-title').textContent = 'Tren kejadian per bulan';
+  $('trend-sub').textContent = s.tahun ? `Tahun ${s.tahun}, ditumpuk menurut jenis bencana` : `${rangeStr(c)}, ditumpuk menurut jenis bencana`;
+  stackedFromRows('c-tren', months.map(k => s.tahun ? BULAN[k%12] : `${BULAN[k%12]} ${String(Math.floor(k/12)).slice(2)}`), rows, r => r.tanggal.getFullYear()*12 + r.tanggal.getMonth(), months);
+}
+
+/* peta */
+let map, tiles, layer, tileFailed = false;
+const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark' || (!document.documentElement.hasAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+const tileUrl = () => isDark() ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+function ensureMap(){
+  if (map) { map.invalidateSize(); return; }
+  if (typeof L === 'undefined') { $('map').textContent = 'Pustaka peta gagal dimuat.'; return; }
+  map = L.map('map', {scrollWheelZoom:false, zoomSnap:.5, preferCanvas:true}).setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
+  map.attributionControl.setPrefix('');
+  tiles = L.tileLayer(tileUrl(), {maxZoom:18, subdomains:'abcd', attribution:'© OpenStreetMap · © CARTO'}).addTo(map);
+  tiles.on('tileerror', () => { if (!tileFailed){ tileFailed = true; $('mapnote').hidden = false; } });
+  layer = L.layerGroup().addTo(map);
+}
+function popup(r){
+  const n = s => s ? s.split('; ').length : 0;
+  return `<strong>${esc(r.jenis)}</strong>${r.nama && r.nama.toLowerCase() !== r.jenis.toLowerCase() ? ` · ${esc(r.nama)}` : ''}
+    <p class="dim">${esc(tglStr(r.tanggal))} · ${esc(r.kab)}</p>
+    ${r.kecamatan ? `<p>Kec. ${esc(short(r.kecamatan, 3))}${n(r.desa) ? ` · ${fmt(n(r.desa))} desa` : ''}</p>` : ''}
+    <p>${r.terdampak ? `Terdampak <b>${fmt(r.terdampak)}</b> jiwa` : 'Tidak ada jiwa terdampak tercatat'}${r.mengungsi?` · mengungsi ${fmt(r.mengungsi)}`:''}${r.meninggal?` · MD ${fmt(r.meninggal)}`:''}${r.hilang?` · hilang ${fmt(r.hilang)}`:''}${r.luka?` · luka ${fmt(r.luka)}`:''}</p>
+    ${r.rusak || r.terendam ? `<p>Rumah rusak ${fmt(r.rusak)} · terendam ${fmt(r.terendam)}</p>` : ''}
+    ${r.kerugian ? `<p>Kerugian ${fmtRp(r.kerugian)}</p>` : ''}
+    ${r.ket ? `<p class="dim">${esc(r.ket)}</p>` : ''}
+    ${r.approx ? `<p class="dim"><i>Titik diletakkan di sekitar pusat kabupaten/kota karena koordinat kosong.</i></p>` : ''}`;
+}
+function renderMap(rows){
+  if (!map) return;
+  layer.clearLayers();
+  const pts = rows.filter(r => r.lat != null && r.lng != null).sort((a,b) => b.terdampak - a.terdampak);
+  for (const r of pts){
+    const col = hazardColor(r.jenis);
+    L.circleMarker([r.lat, r.lng], {radius:4 + Math.min(14, Math.sqrt(r.terdampak) / 6), color:col, weight:1, fillColor:col, fillOpacity:.55, opacity:.9})
+      .bindPopup(() => popup(r)).addTo(layer);
+  }
+  if (st().kab && pts.length) map.fitBounds(L.latLngBounds(pts.map(p => [p.lat,p.lng])).pad(.4), {maxZoom:11});
+  else map.setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
+  const jenis = [...new Set(rows.map(r => r.jenis))].sort((a,b) => hzIndex(a) - hzIndex(b));
+  $('legend').innerHTML = jenis.map(j => `<span><i style="background:${hazardColor(j)}"></i>${esc(j)}</span>`).join('');
+  const approx = rows.filter(r => r.approx).length;
+  const an = $('mapnote-approx');
+  an.hidden = !approx;
+  if (approx) an.textContent = `${fmt(approx)} dari ${fmt(rows.length)} kejadian belum punya koordinat, jadi titiknya diletakkan di sekitar pusat kabupaten/kota. Isi kolom latitude dan longitude agar posisinya tepat.`;
+}
+
+/* tabel */
+const short = (s, n) => { const a = s.split('; '); return a.length <= n ? a.join(', ') : `${a.slice(0, n).join(', ')} +${a.length - n} lainnya`; };
+function renderTable(rows){
+  const s = st(), q = s.q.toLowerCase();
+  const list = (q ? rows.filter(r => [r.kab, r.jenis, r.nama, r.kecamatan, r.desa, r.ket].join(' ').toLowerCase().includes(q)) : rows).slice().sort((a,b) => b.tanggal - a.tanggal);
+  const pages = Math.max(1, Math.ceil(list.length / s.rows));
+  s.page = Math.min(Math.max(1, s.page), pages);
+  const part = list.slice((s.page-1)*s.rows, s.page*s.rows);
+  const n = v => v ? fmt(v) : '<span class="dim">–</span>';
+  $('tbody').innerHTML = part.length ? part.map(r => `<tr>
+    <td class="mono" style="white-space:nowrap">${tglStr(r.tanggal)}</td><td style="white-space:nowrap">${esc(r.kab)}</td>
+    <td><span class="chip"><i style="background:${hazardColor(r.jenis)}"></i>${esc(r.jenis)}</span>${r.nama && r.nama.toLowerCase() !== r.jenis.toLowerCase() ? `<span class="sub">${esc(r.nama)}</span>` : ''}</td>
+    <td style="min-width:180px" title="${esc([r.kecamatan, r.desa].filter(Boolean).join(' — '))}">${r.kecamatan ? esc(short(r.kecamatan, 2)) : '<span class="dim">–</span>'}${r.desa ? `<span class="sub">${esc(short(r.desa, 2))}</span>` : ''}</td>
+    <td class="n">${n(r.meninggal)}</td><td class="n">${n(r.hilang)}</td><td class="n">${n(r.luka)}</td><td class="n">${n(r.mengungsi)}</td><td class="n">${n(r.terdampak)}</td>
+    <td class="n">${n(r.rusak)}</td><td class="n">${n(r.terendam)}</td><td class="n" style="white-space:nowrap">${r.kerugian ? fmtRp(r.kerugian) : '<span class="dim">–</span>'}</td>
+    <td class="dim" style="min-width:220px">${esc(r.ket)}</td></tr>`).join('')
+    : `<tr><td colspan="13" class="dim" style="padding:24px;text-align:center">${DATA[MODE].length ? 'Tidak ada kejadian yang cocok dengan filter atau kata kunci ini.' : 'Belum ada data yang dimuat.'}</td></tr>`;
+  $('pg-info').textContent = list.length ? `${fmt((s.page-1)*s.rows+1)}–${fmt(Math.min(s.page*s.rows, list.length))} dari ${fmt(list.length)} kejadian · halaman ${s.page} dari ${pages}` : '0 kejadian';
+  $('pg-prev').disabled = s.page <= 1; $('pg-next').disabled = s.page >= pages;
+}
+function renderData(){ const rows = filtered(); renderKPI(rows); renderCharts(rows); renderMap(rows); renderTable(rows); }
+
+/* =================== ROUTING =================== */
+function route(){
+  const h = location.hash.replace('#','');
+  const r = h === 'data-bencana' || h === 'data-history' ? h : 'overview';
+  document.querySelectorAll('.nav a').forEach(a => { if (a.dataset.route === r) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  $('view-overview').hidden = r !== 'overview';
+  $('view-data').hidden = r === 'overview';
+  if (r === 'overview'){ if (loaded) renderOverview(); }
+  else {
+    MODE = r === 'data-history' ? 'history' : 'bencana';
+    const c = MODES[MODE].cfg;
+    $('d-eyebrow').textContent = MODES[MODE].label;
+    $('d-title').textContent = MODE === 'history' ? `Arsip kejadian bencana ${rangeStr(c)}` : `Kejadian bencana ${rangeStr(c)}`;
+    $('d-lede').textContent = MODE === 'history'
+      ? 'Data historis untuk melihat pola jangka panjang. Tren ditampilkan per tahun; pilih satu tahun untuk melihat rincian per bulan.'
+      : 'Rincian kejadian: lokasi, korban, kerusakan, dan kerugian, lengkap dengan peta sebaran dan tren bulanan.';
+    paintStatus();
+    ensureMap();
+    if (loaded){ fillFilters(); renderData(); }
+  }
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+
+/* ---------- event ---------- */
+$('instansi').textContent = CONFIG.INSTANSI;
+$('ov-desc').textContent = CONFIG.DESKRIPSI;
+$('nav-range-bencana').textContent = rangeStr(CONFIG.DATA.bencana);
+$('nav-range-history').textContent = rangeStr(CONFIG.DATA.history);
+$('ov-r1').textContent = rangeStr(CONFIG.DATA.bencana);
+$('ov-r2').textContent = rangeStr(CONFIG.DATA.history);
+$('go-1').textContent = `Rincian kejadian ${rangeStr(CONFIG.DATA.bencana)} · peta, tren bulanan, tabel`;
+$('go-2').textContent = `Arsip ${rangeStr(CONFIG.DATA.history)} · pola jangka panjang`;
+
+$('ov-table').addEventListener('click', e => {
+  const a = e.target.closest('.yr-link'); if (!a) return;
+  const m = a.dataset.mode; Object.assign(ST[m], {tahun:a.dataset.year, kab:'', jenis:'', q:'', page:1});
+  if (location.hash === '#' + MODES[m].route){ e.preventDefault(); route(); }
+});
+$('f-tahun').onchange = e => { st().tahun = e.target.value; st().page = 1; renderData(); };
+$('f-kab').onchange = e => { st().kab = e.target.value; st().page = 1; renderData(); };
+$('f-jenis').onchange = e => { st().jenis = e.target.value; st().page = 1; renderData(); };
+$('btn-reset').onclick = () => { Object.assign(st(), {tahun:'', kab:'', jenis:'', q:'', page:1}); fillFilters(); renderData(); };
+$('btn-reload').onclick = loadAll;
+let qT; $('f-q').oninput = e => { clearTimeout(qT); qT = setTimeout(() => { st().q = e.target.value.trim(); st().page = 1; renderTable(filtered()); }, 200); };
+$('f-rows').onchange = e => { st().rows = +e.target.value; st().page = 1; renderTable(filtered()); };
+$('pg-prev').onclick = () => { st().page--; renderTable(filtered()); };
+$('pg-next').onclick = () => { st().page++; renderTable(filtered()); };
+
+function onTheme(){
+  if (tiles) tiles.setUrl(tileUrl());
+  if (!loaded) return;
+  if (!$('view-overview').hidden) renderOverview(); else renderData();
+}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', onTheme);
+new MutationObserver(onTheme).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+
+renderEws();
+loadQuake();
+if (typeof Chart === 'undefined'){
+  setPill('ov-pill', 'err', 'Gagal memuat'); setPill('d-pill', 'err', 'Gagal memuat');
+  $('ov-status').textContent = $('d-status').textContent = 'Pustaka grafik tidak dapat dimuat. Periksa koneksi internet.';
+} else {
+  Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+  route();
+  loadAll();
+}
+</script>
+
+</body>
+</html>
